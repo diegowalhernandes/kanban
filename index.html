@@ -1,93 +1,100 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo Avançado</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer" />
-    <script src="js/script.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Kanban Dark</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/script.js" defer></script>
 </head>
 <body>
-    <div class="todo-container">
-        <header>
-          <h1>Todo Avançado</h1>
-        </header>
-        <form id="todo-form">
-          <p>Adicione sua tarefa</p>
-          <div class="form-control">
-            <input
-              type="text"
-              id="todo-input"
-              placeholder="O que você vai fazer?"
-            />
-            <button type="submit">
-              <i class="fa-thin fa-plus"></i>
-            </button>
-          </div>
-        </form>
-            <form id="edit-form" class="hide">
-                <p>Edite a sua tarefa:</p>
-                <div class="form-control">
-                    <input type="text" id="edit-input">
-                    <button type="submit">
-                        <i class="fa-solid fa-check-double"></i>
-                    </button>
-                </div>
-                <button id="cancel-edit-btn">Cancelar </button>
-            </form>
-            <div id="toolbar">
-                <div id="search">
-                    <h4>Pesquisar</h4>
-                    <form>
-                        <input type="text" id="search-input" placeholder="Buscar">
-                        <button id="erase-button">
-                            <i class="fa-solid fa-delete-left"></i>
-                        </button>
-                    </form>
-                </div>
-                <div id="filter">
-                    <h4>Filtrar:</h4>
-                    <select id="filter-select">
-                        <option value="all">Todos</option>
-                        <option value="done">Feito</option>
-                        <option value="todo">A fazer</option>
-                    </select>                    
-                </div>
-            </div>
-            <div id="todo-list">
-                <div class="todo done">
-                    <h3>Estou fazendo alguma coisa...</h3>
-                    <button class="finish-todo">
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                    <button class="edit-todo">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                    <button class="remove-todo">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div class="todo">
-                    <h3>Estudar JavaScript</h3>
-                    <button class="finish-todo">
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                    <button class="edit-todo">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                    <button class="remove-todo">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
+<div class="header">
+    <h1>Kanban</h1>
+    <div class="add-card-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="cardTitle">Título da Tarefa</label>
+                <input type="text" id="cardTitle" placeholder="Digite o título da tarefa..." maxlength="100">
             </div>
         </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="cardDescription">Descrição (opcional)</label>
+                <textarea id="cardDescription" placeholder="Digite uma descrição detalhada da tarefa..." maxlength="500"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="cardDueDate">Data de Entrega (opcional)</label>
+                <input type="date" id="cardDueDate">
+            </div>
+        </div>
+        <div class="form-row">
+            <button class="btn" onclick="addCard()">➕ Adicionar Tarefa</button>
+        </div>
+    </div>
+</div>
 
+<div class="kanban-board">
+    <div class="column" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="column-header todo">
+            📝 Para Fazer
+            <span class="card-counter" id="todoCounter">0</span>
+        </div>
+        <div class="cards-container" id="todoCards">
+            <div class="empty-state">Nenhuma tarefa ainda</div>
+        </div>
+    </div>
 
-    
+    <div class="column" id="progress" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="column-header progress">
+            🚧 Em Progresso
+            <span class="card-counter" id="progressCounter">0</span>
+        </div>
+        <div class="cards-container" id="progressCards">
+            <div class="empty-state">Nenhuma tarefa em progresso</div>
+        </div>
+    </div>
+
+    <div class="column" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="column-header done">
+            ✅ Concluído
+            <span class="card-counter" id="doneCounter">0</span>
+        </div>
+        <div class="cards-container" id="doneCards">
+            <div class="empty-state">Nenhuma tarefa concluída</div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar card -->
+<div id="cardModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Editar Tarefa</h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="modalTitle">Título</label>
+            <input type="text" id="modalTitle" maxlength="100">
+        </div>
+        
+        <div class="form-group" style="margin-top: 15px;">
+            <label class="form-label" for="modalDescription">Descrição</label>
+            <textarea id="modalDescription" maxlength="500" style="min-height: 100px;"></textarea>
+        </div>
+        
+        <div class="form-group" style="margin-top: 15px;">
+            <label class="form-label" for="modalDueDate">Data de Entrega</label>
+            <input type="date" id="modalDueDate">
+        </div>
+        
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn" onclick="saveCard()">Salvar Alterações</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,152 +1,381 @@
-/* Geral*/
-*{
-    padding: 0;
+* {
     margin: 0;
-    font-family: Helvetica;
-    color: #333;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    background-color: blue;
-
-}
-button{
-    background-color: #fdfdfd;
-    color: #102f5e;
-    border: 2px solid #102f5e;
-    padding: 0.3rem 0.6rem;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #e0e6ed;
 }
 
-button:hover {
-    background-color: #102f5e;
-    color: #fff;
-}
-
-button:hover > i {
-    color: #fff;
-}
-
-button i {
-    color: #102f5e;
-    font-weight: bold;
-    pointer-events: none;
-}
-
-input, select {
-    padding:0.25rem 0.5rem;
-}
-
-.hide {
-    display: none;
-}
-
-/*Todo header*/
-.todo-container {
-    max-width: 450px;
-    margin: 3rem auto;
-    background-color: #fdfdfd;
-    padding: 1.5rem;
-    border-radius:15px;
-}
-
-.todo-container header {
+.header {
     text-align: center;
-    padding:0 1rem 1rem;
-    border-bottom: 1px solid #ccc;
+    margin-bottom: 30px;
 }
 
-/*Todo Form*/
-#todo-form, #edit-form {
-    padding: 1rem;
-    border-bottom: 1px solid #ccc;
+.header h1 {
+    color: #e0e6ed;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-#todo-form p,
-#edit-form p {
-    margin-bottom: .5rem;
+.add-card-form {
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid #374151;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #374151;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #1f2937;
+    color: #e0e6ed;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+}
+
+.btn-secondary:hover {
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+}
+
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.column {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 400px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.column:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.column.drag-over {
+    background: rgba(59, 130, 246, 0.1);
+    border: 2px dashed #3b82f6;
+}
+
+.column-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid;
+    font-size: 1.4em;
     font-weight: bold;
 }
 
-.form-control {
-    display: flex;
+.column-header.todo {
+    border-color: #ef4444;
+    color: #f87171;
 }
 
-.form-control input {
-    margin-right: 0.3rem;
+.column-header.progress {
+    border-color: #f59e0b;
+    color: #fbbf24;
 }
 
-#cancel-edit-btn {
-    margin-top: 1rem;
+.column-header.done {
+    border-color: #10b981;
+    color: #34d399;
 }
 
-/*todo toolbar*/
-
-#toolbar {
-    padding: 1rem;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-}
-#search {
-    border-right: 1px solid #ddd;
-    padding-right: 1rem;
-    margin-right: 1rem;
-    width: 65%;
-    display: flex;
-    flex-direction: column;
+.card {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: grab;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    border-left: 4px solid #3b82f6;
+    position: relative;
 }
 
-#search form {
-    display: flex;
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    border-color: #60a5fa;
 }
 
-#search input {
-    width: 100%;
-    margin-right: 0.3rem;
+.card.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    cursor: grabbing;
 }
 
-#filter {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
+.card-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #e0e6ed;
+    font-size: 1.1em;
+    cursor: pointer;
 }
 
-#filter select {
-    flex: 1;
+.card-description {
+    color: #9ca3af;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-size: 0.95em;
 }
 
-/*todo list*/
-
-.todo {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
-    transition: .3s;
-}
-
-.todo h3 {
-    flex: 1;
-    font-size: 0.9rem;
-}
-
-.todo button {
-    margin-left: 0.4rem;
-}
-
-.done {
-    background-color: #395169;
-}
-
-.done h3 {
-    color: #fff;
-    text-decoration: line-through;
+.card-description.empty {
     font-style: italic;
+    color: #6b7280;
+}
+
+.card-due-date {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.card-due-date.overdue {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+}
+
+.card-due-date.today {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #6b7280;
+    margin-top: 10px;
+}
+
+.card-date {
+    background: rgba(107, 114, 128, 0.2);
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 0.8em;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+    transform: scale(1.1);
+}
+
+.card-counter {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 40px 20px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #1f2937;
+    border: 1px solid #374151;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #374151;
+}
+
+.modal-title {
+    color: #e0e6ed;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.close {
+    color: #9ca3af;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #e0e6ed;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .kanban-board {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .add-card-form {
+        margin-bottom: 20px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
 }
